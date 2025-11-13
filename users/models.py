@@ -69,12 +69,29 @@ class Payment(models.Model):
         max_digits=10,
         decimal_places=2,
         verbose_name="Сумма оплаты",
-        help_text="Введите " "сумму " "оплаты",
+        help_text="Введите сумму оплаты",
     )
     payment_method = models.CharField(
         max_length=50, verbose_name="Способ оплаты", help_text="Введите способ оплаты"
+    )
+    link = models.URLField(
+        max_length=1000,
+        null=True,
+        blank=True,
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
+    )
+    session_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="ID сессии",
+        help_text="Укажите ID сессии",
     )
 
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
+
+    def __str__(self):
+        return self.amount

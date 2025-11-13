@@ -1,5 +1,6 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import (
     CreateAPIView,
@@ -16,7 +17,6 @@ from materials.serializers import (
     CourseSerializer,
     LessonSerializer,
     CourseDetailSerializer,
-    SubscriptionSerializer,
 )
 from users.permissions import IsModer, IsOwner
 
@@ -80,10 +80,8 @@ class LessonDestroyAPIView(DestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner | ~IsModer]
 
 
-class SubscriptionUpdateAPIView(UpdateAPIView):
-    queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+class SubscriptionAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, *args, **kwargs):
         user = self.request.user
