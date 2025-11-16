@@ -9,6 +9,7 @@ from users.views import (
     UserRetrieveAPIView,
     UserUpdateAPIView,
     UserDestroyAPIView,
+    PaymentCreateAPIView,
 )
 
 from rest_framework_simplejwt.views import (
@@ -35,4 +36,5 @@ urlpatterns = [
     path("<int:pk>/", UserRetrieveAPIView.as_view(), name="profile"),
     path("<int:pk>/update/", UserUpdateAPIView.as_view(), name="users_update"),
     path("<int:pk>/delete/", UserDestroyAPIView.as_view(), name="users_delete"),
+    path("payments/create/", PaymentCreateAPIView.as_view(), name="payments_create"),
 ]
