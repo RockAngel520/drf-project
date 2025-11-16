@@ -8,3 +8,8 @@ djangorestframework_simplejwt==5.5.1
 coverage==7.11.2
 drf-yasg==1.21.11
 stripe==13.2.0
+celery==5.5.3
+eventlet==0.40.3
+django-celery-beat==2.8.1
+redis==7.0.1
+python-dateutil~=2.9.0.post0
