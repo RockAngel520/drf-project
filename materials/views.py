@@ -19,6 +19,7 @@ from materials.serializers import (
     CourseDetailSerializer,
 )
 from users.permissions import IsModer, IsOwner
+from materials.tasks import send_update_course
 
 
 class CourseViewSet(ModelViewSet):
@@ -43,6 +44,14 @@ class CourseViewSet(ModelViewSet):
         elif self.action == "destroy":
             self.permission_classes = (IsOwner | ~IsModer,)
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        """Переопределяем метод update, чтобы отправить письмо пользователям, подписавшимся на обновление"""
+        course = serializer.save()
+        subscriptions = Subscription.objects.filter(course=course)
+        if subscriptions.exists():
+            for subscription in subscriptions:
+                send_update_course.delay(subscription.user.email, course.name)
 
 
 class LessonCreateAPIView(CreateAPIView):
